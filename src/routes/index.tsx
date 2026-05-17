@@ -78,8 +78,8 @@ function Index() {
           </div>
         </div>
 
-        {/* 2GreekDevs */}
-        <div className="hidden">
+        {/* 2GreekDevs — hidden */}
+        <div className="hidden" />
 
         <div className="p-6 rounded-2xl bg-surface border border-border/60 flex flex-col justify-between">
           <Terminal className="w-5 h-5 text-mint" />
