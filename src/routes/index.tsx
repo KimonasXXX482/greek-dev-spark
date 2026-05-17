@@ -99,7 +99,7 @@ function Index() {
               A Greek developer collective building thoughtful digital products
               for startups and growing teams. I help ship the work.
             </p>
-            <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold">
+            <div className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-foreground/15 border border-primary-foreground/20 hover:bg-primary-foreground/25 transition-colors text-sm font-semibold backdrop-blur-sm">
               Visit 2greekdevs.gr
               <ArrowRight className="w-4 h-4" />
             </div>
