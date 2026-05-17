@@ -11,7 +11,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "2greekdevs-platform",
-    title: "2GreekDevs Platform",
+    title: "More info",
     description:
       "Full-stack web platform for a developer collective — services, portfolio, and client onboarding flows.",
     tags: ["React", "TailwindCSS", "Node.js"],
