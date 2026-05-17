@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Eydokimos Petrakis — Full Stack Developer" },
-      { name: "description", content: "Full Stack Developer crafting modern web apps with React, Python and C. Building with 2GreekDevs." },
+      { name: "description", content: "Full Stack Developer crafting modern web apps with React, Python and C." },
     ],
   }),
   component: Index,
@@ -78,33 +78,8 @@ function Index() {
           </div>
         </div>
 
-        {/* 2GreekDevs */}
-        <a
-          href="https://2greekdevs.gr"
-          target="_blank"
-          rel="noreferrer"
-          className="group sm:col-span-2 lg:col-span-2 lg:row-span-2 relative overflow-hidden p-7 rounded-2xl border border-mint/30 bg-[image:var(--gradient-mint)] text-primary-foreground hover:shadow-[var(--shadow-glow)] transition-shadow flex flex-col justify-between"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-xs uppercase tracking-widest font-semibold opacity-80">
-              Partnered with
-            </span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </div>
-          <div>
-            <h2 className="text-4xl sm:text-5xl font-display font-bold leading-tight">
-              2GreekDevs
-            </h2>
-            <p className="mt-3 max-w-md text-primary-foreground/85 leading-relaxed">
-              A Greek developer collective building thoughtful digital products
-              for startups and growing teams. I help ship the work.
-            </p>
-            <div className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-foreground/15 border border-primary-foreground/20 hover:bg-primary-foreground/25 transition-colors text-sm font-semibold backdrop-blur-sm">
-              Visit 2greekdevs.gr
-              <ArrowRight className="w-4 h-4" />
-            </div>
-          </div>
-        </a>
+        {/* 2GreekDevs — hidden */}
+        <div className="hidden" />
 
         <div className="p-6 rounded-2xl bg-surface border border-border/60 flex flex-col justify-between">
           <Terminal className="w-5 h-5 text-mint" />
