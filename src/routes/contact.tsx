@@ -1,5 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, Github, Linkedin, ArrowUpRight } from "lucide-react";
+import { Mail, Github, Linkedin, ArrowUpRight, Send } from "lucide-react";
+import { useState, type FormEvent } from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -13,6 +18,8 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
+const RECIPIENT = "hello@example.com";
+
 const channels = [
   { icon: Mail, label: "Email", value: "hello@example.com", href: "mailto:hello@example.com" },
   { icon: Github, label: "GitHub", value: "github.com/eydokimos", href: "https://github.com" },
@@ -20,8 +27,19 @@ const channels = [
 ];
 
 function ContactPage() {
+  const [username, setUsername] = useState("");
+  const [gmail, setGmail] = useState("");
+  const [paragraph, setParagraph] = useState("");
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`New message from ${username}`);
+    const body = encodeURIComponent(`From: ${username} <${gmail}>\n\n${paragraph}`);
+    window.location.href = `mailto:${RECIPIENT}?subject=${subject}&body=${body}`;
+  };
+
   return (
-    <div className="max-w-4xl mx-auto px-6 pt-16 sm:pt-24">
+    <div className="max-w-4xl mx-auto px-6 pt-16 sm:pt-24 pb-24">
       <span className="text-xs uppercase tracking-widest text-mint font-medium">Contact</span>
       <h1 className="mt-3 text-5xl sm:text-7xl font-display font-bold leading-[0.95]">
         Let's build<br />something <span className="text-mint">good.</span>
@@ -49,6 +67,62 @@ function ContactPage() {
           </a>
         ))}
       </div>
+
+      <form
+        onSubmit={handleSubmit}
+        className="mt-12 p-6 sm:p-8 rounded-2xl bg-surface border border-border/60 space-y-6"
+      >
+        <div>
+          <h2 className="font-display text-2xl font-semibold">Send a message</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Fill in the form and your default mail app will open with your message ready to send.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="username">Username</Label>
+            <Input
+              id="username"
+              required
+              maxLength={100}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Your name"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="gmail">Gmail</Label>
+            <Input
+              id="gmail"
+              type="email"
+              required
+              maxLength={255}
+              value={gmail}
+              onChange={(e) => setGmail(e.target.value)}
+              placeholder="you@gmail.com"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="paragraph">Paragraph</Label>
+          <Textarea
+            id="paragraph"
+            required
+            maxLength={2000}
+            rows={6}
+            value={paragraph}
+            onChange={(e) => setParagraph(e.target.value)}
+            placeholder="Tell me about your project..."
+          />
+        </div>
+
+        <Button type="submit" className="bg-mint text-background hover:bg-mint/90">
+          <Send className="w-4 h-4" />
+          Send message
+        </Button>
+      </form>
     </div>
   );
 }
