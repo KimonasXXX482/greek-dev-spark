@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Instagram, Facebook, Youtube } from "lucide-react";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -58,21 +57,6 @@ function AboutPage() {
               </ul>
             </div>
           ))}
-
-          <div>
-            <h3 className="text-sm uppercase tracking-widest text-mint mb-3">Connect</h3>
-            <div className="flex items-center gap-3">
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="p-2 rounded-lg bg-surface border border-border/60 hover:border-mint/50 transition-colors" aria-label="Instagram">
-                <Instagram className="w-5 h-5 text-mint" />
-              </a>
-              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="p-2 rounded-lg bg-surface border border-border/60 hover:border-mint/50 transition-colors" aria-label="Facebook">
-                <Facebook className="w-5 h-5 text-mint" />
-              </a>
-              <a href="https://youtube.com" target="_blank" rel="noreferrer" className="p-2 rounded-lg bg-surface border border-border/60 hover:border-mint/50 transition-colors" aria-label="YouTube">
-                <Youtube className="w-5 h-5 text-mint" />
-              </a>
-            </div>
-          </div>
         </aside>
       </div>
     </div>
