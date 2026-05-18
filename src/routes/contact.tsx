@@ -49,25 +49,6 @@ function ContactPage() {
         Pick a channel — I usually reply within a day.
       </p>
 
-      <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {channels.map((c) => (
-          <a
-            key={c.label}
-            href={c.href}
-            target="_blank"
-            rel="noreferrer"
-            className="group p-6 rounded-2xl bg-surface border border-border/60 hover:border-mint/50 transition-colors"
-          >
-            <div className="flex items-center justify-between">
-              <c.icon className="w-5 h-5 text-mint" />
-              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-mint group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" />
-            </div>
-            <div className="mt-6 text-sm text-muted-foreground">{c.label}</div>
-            <div className="font-display text-lg font-semibold">{c.value}</div>
-          </a>
-        ))}
-      </div>
-
       <form
         onSubmit={handleSubmit}
         className="mt-12 p-6 sm:p-8 rounded-2xl bg-surface border border-border/60 space-y-6"
@@ -123,6 +104,25 @@ function ContactPage() {
           Send message
         </Button>
       </form>
+
+      <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {channels.map((c) => (
+          <a
+            key={c.label}
+            href={c.href}
+            target="_blank"
+            rel="noreferrer"
+            className="group p-6 rounded-2xl bg-surface border border-border/60 hover:border-mint/50 transition-colors"
+          >
+            <div className="flex items-center justify-between">
+              <c.icon className="w-5 h-5 text-mint" />
+              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-mint group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" />
+            </div>
+            <div className="mt-6 text-sm text-muted-foreground">{c.label}</div>
+            <div className="font-display text-lg font-semibold">{c.value}</div>
+          </a>
+        ))}
+      </div>
     </div>
   );
 }
