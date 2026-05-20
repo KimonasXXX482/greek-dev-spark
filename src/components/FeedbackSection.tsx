@@ -1,8 +1,9 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { Star, Send, Loader2 } from "lucide-react";
+import { Star, Send, Loader2, Trash2 } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/use-auth";
 
 type Feedback = {
   id: string;
