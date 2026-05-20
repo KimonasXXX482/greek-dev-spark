@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ProjectCard } from "@/components/ProjectCard";
+import { FeedbackSection } from "@/components/FeedbackSection";
 import { projects } from "@/data/projects";
 import { ArrowRight, Code2, Sparkles, Star, Terminal } from "lucide-react";
 
@@ -132,6 +133,9 @@ function Index() {
           ))}
         </div>
       </section>
+
+      {/* FEEDBACK */}
+      <FeedbackSection />
     </div>
   );
 }
