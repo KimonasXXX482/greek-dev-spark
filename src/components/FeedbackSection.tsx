@@ -31,6 +31,15 @@ export function FeedbackSection() {
   const [hover, setHover] = useState(0);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const { isAdmin } = useAuth();
+
+  const removeItem = async (id: string) => {
+    if (!confirm("Delete this comment?")) return;
+    const { error } = await supabase.from("feedbacks").delete().eq("id", id);
+    if (error) return toast.error("Could not delete.");
+    setItems((prev) => prev.filter((f) => f.id !== id));
+    toast.success("Comment deleted");
+  };
 
   useEffect(() => {
     let mounted = true;
