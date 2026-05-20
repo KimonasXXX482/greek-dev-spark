@@ -240,8 +240,20 @@ export function FeedbackSection() {
                 <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap break-words">
                   {f.comment}
                 </p>
-                <div className="text-xs text-muted-foreground/70">
-                  {new Date(f.created_at).toLocaleDateString()}
+                <div className="flex items-center justify-between">
+                  <div className="text-xs text-muted-foreground/70">
+                    {new Date(f.created_at).toLocaleDateString()}
+                  </div>
+                  {isAdmin && (
+                    <button
+                      type="button"
+                      onClick={() => removeItem(f.id)}
+                      className="inline-flex items-center gap-1 text-xs text-destructive hover:opacity-80 transition-opacity"
+                      aria-label="Delete comment"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Delete
+                    </button>
+                  )}
                 </div>
               </article>
             ))
