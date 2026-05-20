@@ -1,8 +1,9 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { Star, Send, Loader2 } from "lucide-react";
+import { Star, Send, Loader2, Trash2 } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/use-auth";
 
 type Feedback = {
   id: string;
@@ -30,6 +31,15 @@ export function FeedbackSection() {
   const [hover, setHover] = useState(0);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const { isAdmin } = useAuth();
+
+  const removeItem = async (id: string) => {
+    if (!confirm("Delete this comment?")) return;
+    const { error } = await supabase.from("feedbacks").delete().eq("id", id);
+    if (error) return toast.error("Could not delete.");
+    setItems((prev) => prev.filter((f) => f.id !== id));
+    toast.success("Comment deleted");
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -230,8 +240,20 @@ export function FeedbackSection() {
                 <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap break-words">
                   {f.comment}
                 </p>
-                <div className="text-xs text-muted-foreground/70">
-                  {new Date(f.created_at).toLocaleDateString()}
+                <div className="flex items-center justify-between">
+                  <div className="text-xs text-muted-foreground/70">
+                    {new Date(f.created_at).toLocaleDateString()}
+                  </div>
+                  {isAdmin && (
+                    <button
+                      type="button"
+                      onClick={() => removeItem(f.id)}
+                      className="inline-flex items-center gap-1 text-xs text-destructive hover:opacity-80 transition-opacity"
+                      aria-label="Delete comment"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Delete
+                    </button>
+                  )}
                 </div>
               </article>
             ))
