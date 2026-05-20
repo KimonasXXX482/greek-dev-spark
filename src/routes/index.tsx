@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
-import { ArrowRight, Code2, Sparkles, Terminal } from "lucide-react";
+import { ArrowRight, Code2, Sparkles, Star, Terminal } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -95,10 +95,16 @@ function Index() {
             <div className="text-sm text-muted-foreground">Shipped projects</div>
           </div>
         </div>
-        <div className="sm:col-span-2 p-6 rounded-2xl bg-surface border border-border/60 flex items-center">
+        <div className="sm:col-span-2 p-6 rounded-2xl bg-surface border border-border/60 flex flex-col justify-between gap-3">
+          <div className="flex items-center gap-1" aria-label="5 out of 5 stars">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} className="w-4 h-4 fill-mint text-mint" />
+            ))}
+            <span className="ml-2 text-xs uppercase tracking-widest text-muted-foreground">Client feedback</span>
+          </div>
           <p className="text-base sm:text-lg leading-relaxed">
             <span className="text-mint">"</span>
-            Software should feel inevitable — quiet on the surface, sharp underneath.
+            Eydokimos delivered beyond expectations — clean code, sharp eye, and a calm process from start to ship.
             <span className="text-mint">"</span>
           </p>
         </div>
