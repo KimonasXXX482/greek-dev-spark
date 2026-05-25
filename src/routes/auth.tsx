@@ -22,7 +22,6 @@ const schema = z.object({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -41,32 +40,19 @@ function AuthPage() {
       return;
     }
     setBusy(true);
-    if (mode === "signup") {
-      const { error } = await supabase.auth.signUp({
-        email: parsed.data.email,
-        password: parsed.data.password,
-        options: { emailRedirectTo: `${window.location.origin}/` },
-      });
-      setBusy(false);
-      if (error) return toast.error(error.message);
-      toast.success("Check your inbox to confirm your email.");
-    } else {
-      const { error } = await supabase.auth.signInWithPassword(parsed.data);
-      setBusy(false);
-      if (error) return toast.error(error.message);
-      toast.success("Signed in");
-      navigate({ to: "/" });
-    }
+    const { error } = await supabase.auth.signInWithPassword(parsed.data);
+    setBusy(false);
+    if (error) return toast.error(error.message);
+    toast.success("Signed in");
+    navigate({ to: "/" });
   };
 
   return (
     <div className="max-w-md mx-auto px-6 pt-24">
       <Link to="/" className="text-sm text-muted-foreground hover:text-mint">← Back home</Link>
-      <h1 className="mt-6 text-4xl font-display font-bold">
-        {mode === "signin" ? "Sign in" : "Create account"}
-      </h1>
+      <h1 className="mt-6 text-4xl font-display font-bold">Admin sign in</h1>
       <p className="mt-2 text-muted-foreground text-sm">
-        Admin access for managing site feedback.
+        Admin access for managing site feedback. Accounts are provisioned manually — public sign-up is disabled.
       </p>
 
       <form onSubmit={submit} className="mt-8 p-6 rounded-2xl bg-surface border border-border/60 flex flex-col gap-4">
@@ -98,14 +84,7 @@ function AuthPage() {
           className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[image:var(--gradient-mint)] text-primary-foreground font-medium hover:shadow-[var(--shadow-glow)] transition-shadow disabled:opacity-60"
         >
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
-          {mode === "signin" ? "Sign in" : "Sign up"}
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-          className="text-xs text-muted-foreground hover:text-mint"
-        >
-          {mode === "signin" ? "No account? Create one" : "Already have an account? Sign in"}
+          Sign in
         </button>
       </form>
     </div>
