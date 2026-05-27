@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState, type FormEvent, useEffect } from "react";
-import { z } from "zod";
 import { Loader2, LogIn } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -15,14 +14,16 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
-const schema = z.object({
-  email: z.string().trim().email("Invalid email").max(255),
-  password: z.string().min(6, "Password must be at least 6 characters").max(72),
-});
+// Single hard-coded admin. UI accepts username "root" / password "root".
+// Internally mapped to a fixed Supabase account.
+const ADMIN_USERNAME = "root";
+const ADMIN_PASSWORD = "root";
+const INTERNAL_EMAIL = "root@admin.local";
+const INTERNAL_PASSWORD = "rootroot";
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -34,13 +35,15 @@ function AuthPage() {
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    const parsed = schema.safeParse({ email, password });
-    if (!parsed.success) {
-      toast.error(parsed.error.issues[0]?.message ?? "Invalid input");
+    if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+      toast.error("Invalid credentials");
       return;
     }
     setBusy(true);
-    const { error } = await supabase.auth.signInWithPassword(parsed.data);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: INTERNAL_EMAIL,
+      password: INTERNAL_PASSWORD,
+    });
     setBusy(false);
     if (error) return toast.error(error.message);
     toast.success("Signed in");
@@ -52,17 +55,18 @@ function AuthPage() {
       <Link to="/" className="text-sm text-muted-foreground hover:text-mint">← Back home</Link>
       <h1 className="mt-6 text-4xl font-display font-bold">Admin sign in</h1>
       <p className="mt-2 text-muted-foreground text-sm">
-        Admin access for managing site feedback. Accounts are provisioned manually — public sign-up is disabled.
+        Restricted area. Only the site owner can sign in.
       </p>
 
       <form onSubmit={submit} className="mt-8 p-6 rounded-2xl bg-surface border border-border/60 flex flex-col gap-4">
         <div>
-          <label className="text-xs uppercase tracking-widest text-muted-foreground">Email</label>
+          <label className="text-xs uppercase tracking-widest text-muted-foreground">Username</label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            maxLength={255}
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+            maxLength={64}
             className="mt-2 w-full bg-muted/40 border border-border/40 rounded-lg px-3 py-2 text-sm outline-none focus:border-mint/60"
             required
           />
@@ -73,7 +77,8 @@ function AuthPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            maxLength={72}
+            autoComplete="current-password"
+            maxLength={64}
             className="mt-2 w-full bg-muted/40 border border-border/40 rounded-lg px-3 py-2 text-sm outline-none focus:border-mint/60"
             required
           />
